@@ -16,6 +16,12 @@ func (f Funky) Dance() {
 	f()
 }
 
+type Str string
+
+func (s Str) Dance() {
+	fmt.Println(s)
+}
+
 type Dancer interface {
 	Dance()
 }
@@ -33,4 +39,5 @@ func main() {
 	}
 
 	StartParty(f)
+	StartParty(Str("Je suis une chaîne de caractère et je dance, ça te pose un problème ?"))
 }
