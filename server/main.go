@@ -1,8 +1,12 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"ipssi/handlers"
 	"net/http"
+
+	"github.com/nanoninja/bulma"
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
@@ -20,10 +24,21 @@ func Middleware(next http.Handler) http.Handler {
 	})
 }
 
-func main() {
-	handler := http.HandlerFunc(home)
-	http.Handle("/", Middleware(handler))
-	http.HandleFunc("/about", about)
+var addr = flag.String("addr", ":3000", "hostname of server")
 
-	http.ListenAndServe(":3000", nil)
+func main() {
+	flag.Parse()
+
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", home)
+	mux.HandleFunc("/about", about)
+
+	ba := bulma.BasicAuth("Auth", mux, bulma.User{
+		"toto": "1234",
+		"will": "0000",
+	})
+
+	handler := handlers.Logger(Middleware(ba))
+
+	http.ListenAndServe(*addr, handler)
 }
