@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"html/template"
 	"ipssi/handlers"
 	"net/http"
 
@@ -10,7 +11,19 @@ import (
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome to my homepage."))
+	tmpl, err := template.New("home").ParseFiles("./tmpl/home.html")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = tmpl.Execute(w, map[string]string{
+		"name":    "Gopher",
+		"version": "1.10",
+		"value":   "",
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
