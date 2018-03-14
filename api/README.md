@@ -39,11 +39,11 @@ openssl req \
         -days 365 \
         -subj "/C=FR/ST=IDF/L=Paris/O=ipssi/CN=localhost" \
         -key ./server/ssl/server.key \
-        -out ./server/ssl/server.crt
+        -out ./server/ssl/server.cert
 ```
 
 La même chose mais en ligne 
 
 ```sh
-openssl req -new -x509 -sha256 -days 365 -subj "/C=FR/ST=IDF/L=Paris/O=ipssi/CN=localhost" -key ./server/ssl/server.key -out ./server/ssl/server.crt
+openssl req -new -x509 -sha256 -days 365 -subj "/C=FR/ST=IDF/L=Paris/O=ipssi/CN=localhost" -key ./server/ssl/server.key -out ./server/ssl/server.cert
 ```
