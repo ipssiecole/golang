@@ -19,3 +19,31 @@ go get -u github.com/globalsign/mgo
 ```sh
 go get -u github.com/gorilla/mux
 ```
+
+```sh
+openssl genrsa -out ./server/ssl/server.key 2048
+```
+
+Le subject du certificat:
+- C == Country
+- ST == Statte
+- L == Location
+- O == Organisation
+- CN == Common Name
+
+```sh
+openssl req \
+        -new \
+        -x509 \
+        -sha256 \
+        -days 365 \
+        -subj "/C=FR/ST=IDF/L=Paris/O=ipssi/CN=localhost" \
+        -key ./server/ssl/server.key \
+        -out ./server/ssl/server.crt
+```
+
+La même chose mais en ligne 
+
+```sh
+openssl req -new -x509 -sha256 -days 365 -subj "/C=FR/ST=IDF/L=Paris/O=ipssi/CN=localhost" -key ./server/ssl/server.key -out ./server/ssl/server.crt
+```
