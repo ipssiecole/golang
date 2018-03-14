@@ -1,0 +1,126 @@
+swagger: '2.0'
+
+info:
+  title: TodoList
+  version: '0.0.1'
+  description: 'Todo list api'
+  contact:
+    email: 'vincent@nanoninja.com'
+
+schemes:
+  - https
+
+host: 'api.ipssi.com'
+basePath: '/todo'
+
+paths:
+  /tasks:
+    post:
+      description: Create a new task
+      tags:
+        - tasks
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Task'
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: '#/definitions/Task'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description: Update task by its ID.
+      tags:
+        - tasks
+      consumes: 
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Task'
+      responses:
+        204:
+          description: No Content
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'
+    get:
+      description: 'get all tasks'
+      tags:
+        - tasks
+      produces:
+        - application/json
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          type: integer
+        - name: limit
+          in: query
+          required: false
+          type: integer
+      responses:
+        200:
+          description: Returns all tasks
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+
+  '/tasks/{id}':
+    get:
+      description: 'Find a task by its id.'
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Task'
+
+definitions:
+  Task:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier representing a specific task for a given UUI.
+      title:
+        type: string
+        description: Title reprenting the title of the task.
+      created_at:
+        type: string
+        format: dateTime
+        description: Is the date when the task has been created.
+      status:
+        type: boolean
+        description: Task is done or not.
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
