@@ -2,6 +2,8 @@ package store
 
 import (
 	"api/model"
+	"fmt"
+	"time"
 
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
@@ -15,10 +17,7 @@ type mongo struct {
 }
 
 func NewMongoManager(session *mgo.Session) Manager {
-	s := session.Copy()
-	defer s.Close()
-
-	return &mongo{session: s}
+	return &mongo{session: session}
 }
 
 func (m *mongo) Create(t *model.Task) error {
@@ -28,12 +27,14 @@ func (m *mongo) Create(t *model.Task) error {
 			return err
 		}
 		t.ID = id.String()
+		t.CreatedAt = time.Now()
 	}
 
 	session := m.session.Copy()
 	defer session.Close()
 	c := session.DB("").C(collection)
 
+	fmt.Println(t)
 	return c.Insert(t)
 }
 
