@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"fmt"
-	"net/http"
+	"api/handler"
 	"api/model"
+	"net/http"
 )
 
 // Default is a controller by default.
@@ -21,15 +21,16 @@ func NewDefault() *Default {
 	}
 
 	d.Routes = append(d.Routes, model.Route{
-		Name: "Index",
-		Method: "GET",
+		Name:    "Index",
+		Method:  "GET",
 		Pattern: d.Prefix,
-		Func: d.Index,
+		Func:    d.Index,
 	})
 
 	return d
 }
 
+// Index HomePage
 func (d *Default) Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello")
+	handler.SendJSONOk(w, "hello")
 }
