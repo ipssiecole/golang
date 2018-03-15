@@ -28,6 +28,6 @@
   go-tests = true
   unused-packages = true
 
-[[override]]
+[[constraint]]
   name = "github.com/satori/go.uuid"
   version = "1.1.0"
