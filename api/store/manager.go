@@ -9,9 +9,9 @@ type Manager interface {
 
 	Create(*model.Task) error
 
-	Find(string) (model.Task, error)
+	Find(string) (*model.Task, error)
 
-	FindByStatus(bool) (model.Task, error)
+	FindByStatus(bool) ([]model.Task, error)
 
 	Update(*model.Task) error
 

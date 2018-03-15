@@ -4,6 +4,7 @@ import (
 	"api/model"
 
 	"github.com/globalsign/mgo"
+	"github.com/globalsign/mgo/bson"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -34,6 +35,50 @@ func (m *mongo) Create(t *model.Task) error {
 	c := session.DB("").C(collection)
 
 	return c.Insert(t)
+}
+
+func (m *mongo) Find(ID string) (*model.Task, error) {
+	if _, err := uuid.FromString(ID); err != nil {
+		return nil, err
+	}
+
+	session := m.session.Copy()
+	defer session.Close()
+
+	task := &model.Task{}
+	err := session.DB("").C(collection).FindId(ID).One(task)
+
+	return task, err
+}
+
+func (m *mongo) Delete(ID string) error {
+	if _, err := uuid.FromString(ID); err != nil {
+		return err
+	}
+
+	session := m.session.Copy()
+	defer session.Close()
+
+	return session.DB("").C(collection).RemoveId(ID)
+}
+
+func (m *mongo) Update(t *model.Task) error {
+	session := m.session.Copy()
+	defer session.Close()
+
+	return session.DB("").C(collection).UpdateId(t.ID, t)
+}
+
+func (m *mongo) FindByStatus(flag bool) ([]model.Task, error) {
+	session := m.session.Copy()
+	defer session.Close()
+
+	tasks := []model.Task{}
+
+	c := session.DB("").C(collection).Find(bson.M{"status": flag})
+	err := c.All(&tasks)
+
+	return tasks, err
 }
 
 // TODO Check limit
