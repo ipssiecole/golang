@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - '127.0.0.1:27017:27017'
+  web:
+    image: ipssi/api:1.0
+    restart: always
+    container_name: api
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb
