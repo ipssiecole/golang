@@ -6,6 +6,8 @@ import (
 	"testing"
 )
 
+// go test -v ./...
+// go test -v *.go
 func TestHomePage(t *testing.T) {
 	handler := http.HandlerFunc(HomePage)
 
