@@ -91,10 +91,7 @@ func (m *mongo) All(offset, limit int) ([]model.Task, error) {
 	defer session.Close()
 	c := session.DB("").C(collection)
 
-	// total == 100
-	// offset = 5
-	// limit = 10
-	if offset > NoPaging && limit > NoPaging && limit > offset {
+	if offset > NoPaging && limit > NoPaging {
 		err = c.Find(nil).Skip(offset).Limit(limit).All(&tasks)
 	} else {
 		err = c.Find(nil).All(&tasks)
