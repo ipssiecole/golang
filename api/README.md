@@ -48,9 +48,22 @@ La même chose mais en ligne
 openssl req -new -x509 -sha256 -days 365 -subj "/C=FR/ST=IDF/L=Paris/O=ipssi/CN=localhost" -key ./server/ssl/server.key -out ./server/ssl/server.cert
 ```
 
+## On créé l'image qui compile l'application
+
+```sh
+docker build -t ipssi/api:1.0 .
+```
+
+## On lance un container mongodb
 ```sh
 docker run --name mongodb -p 27017:27017 -d mongo
 ```
+
+## On lance le container de l'API en liant le container mongodb.
+```sh
+docker run --name api -p 3000:3000 --link mongodb:mongodb ipssi/api:1.0
+```
+
 
 ## Tips
 

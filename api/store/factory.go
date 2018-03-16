@@ -17,7 +17,7 @@ func CreateManager(t StoreType) (Manager, error) {
 	switch t {
 	case MongoType:
 		timeout := 5 * time.Second
-		url := "mongodb://localhost/todo"
+		url := "mongodb://mongodb/todo"
 
 		session, err := mgo.DialWithTimeout(url, timeout)
 		if err != nil {
