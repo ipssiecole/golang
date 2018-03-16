@@ -51,3 +51,10 @@ openssl req -new -x509 -sha256 -days 365 -subj "/C=FR/ST=IDF/L=Paris/O=ipssi/CN=
 ```sh
 docker run --name mongodb -p 27017:27017 -d mongo
 ```
+
+## Tips
+
+    If you want typed data, use a data type.
+    If you want typed Behavior use an interface.
+
+    Dave Cheney.
