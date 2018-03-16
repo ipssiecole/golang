@@ -55,8 +55,9 @@ docker build -t ipssi/api:1.0 .
 ```
 
 ## On lance un container mongodb
+
 ```sh
-docker run --name mongodb -p 27017:27017 -d mongo
+docker run --name mongodb -p 127.0.0.1:27017:27017 -d mongo
 ```
 
 ## On lance le container de l'API en liant le container mongodb.
